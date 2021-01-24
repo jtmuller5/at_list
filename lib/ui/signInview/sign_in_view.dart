@@ -71,7 +71,7 @@ class SignInView extends StatelessWidget {
                       ],
                     ),
                   ),
-                  if (atProtocolService.atSignList.isNotEmpty) ExistingAtSigns()
+                  if (atProtocolService.atSignList != null && atProtocolService.atSignList.isNotEmpty) ExistingAtSigns()
                 ],
               ),
             ),

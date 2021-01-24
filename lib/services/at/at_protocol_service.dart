@@ -84,6 +84,11 @@ class AtProtocolService {
         .onboard(atClientPreference: atClientPreference, atsign: atsign)
         .catchError((e) => print('Error in Onboarding: $e'));
 
+    print('result: ' + result.toString());
+    if(result == null){
+      result = false;
+    }
+
     /// Store the current At Sign for display
     atSign = await atClientService.getAtSign();
 
