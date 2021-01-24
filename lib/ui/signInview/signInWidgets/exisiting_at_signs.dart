@@ -12,7 +12,6 @@ class ExistingAtSigns extends ViewModelWidget<SignInViewModel> {
     return Expanded(
       child: Column(
         children: [
-          Divider(),
           Container(
             width: 300,
             child: Text(

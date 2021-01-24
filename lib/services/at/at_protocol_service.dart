@@ -90,15 +90,6 @@ class AtProtocolService {
     return result;
   }
 
-  ///Returns `false` if fails in authenticating [atsign] with [cramSecret]/[privateKey].
-  Future<bool> authenticate(String atsign,
-      {String cramSecret, String privateKey}) async {
-    var result = await atClientService
-        .authenticate(atsign, atClientPreference);
-
-    return result;
-  }
-
   ///Fetches atsign from device keychain.
   Future<String> getAtSign() async {
     return await atClientService.getAtSign();
@@ -129,7 +120,7 @@ class AtProtocolService {
     return atClientImpl.persistPublicKey(publicKey);
   }
 
-  /// Clear all At Protocol values
+  /// Clear all At Protocol values and return to the initial sign in view
   void logout(BuildContext context){
     atClientService = null;
     atClientImpl = null;

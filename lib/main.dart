@@ -13,10 +13,10 @@ import 'app/router.gr.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   configureDependencies(); // Creates all necessary services for get_it
-  await Hive.initFlutter();
-  await initializeServices();
-  await ThemeManager.initialise();
-  await atProtocolService.setup();
+  await Hive.initFlutter(); // Initialize Hive DB for future use
+  await initializeServices(); // Perform service specific setup (open Hive boxeS)
+  await ThemeManager.initialise(); // Setup for using stacked_themes
+  await atProtocolService.setup(); // Get any @signs from the keychain manager
   runApp(Gateway());
 }
 
@@ -36,7 +36,13 @@ class Gateway extends StatelessWidget {
             } else {
               return App(initialRoute: Routes.signInView);
             }
-          } else {
+          }
+
+          else if(snapshot.hasError){
+            return App(initialRoute: Routes.signInView);
+          }
+
+          else {
             return Center(child: CircularProgressIndicator());
           }
         });
