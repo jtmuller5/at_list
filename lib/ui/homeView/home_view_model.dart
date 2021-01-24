@@ -1,12 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:stacked/stacked.dart';
 
-class HomeViewModel extends BaseViewModel{
-
+class HomeViewModel extends BaseViewModel {
   ScrollController scrollController;
 
-  void initialize(){
-scrollController = ScrollController();
+  void initialize() {
+    scrollController = ScrollController();
   }
 
   @override
@@ -14,5 +13,4 @@ scrollController = ScrollController();
     // TODO: implement dispose
     super.dispose();
   }
-
 }

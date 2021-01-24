@@ -1,13 +1,15 @@
+import 'package:at_list/services/services.dart';
 import 'package:at_list/ui/homeView/home_view_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 
 class HomeView extends StatelessWidget {
-  static const String id = 'home_view';
 
   @override
   Widget build(BuildContext context) {
+
+    print('Home view built');
     return ViewModelBuilder<HomeViewModel>.reactive(
       viewModelBuilder: () => HomeViewModel(),
       onModelReady: (model) {
@@ -16,6 +18,22 @@ class HomeView extends StatelessWidget {
       builder: (context, model, child) {
         return SafeArea(
           child: Scaffold(
+            drawer: Drawer(
+              child: ListView(
+                children: [ListTile(
+                  title: Text('Logout'),
+                  onTap: (){
+                    atProtocolService.logout(context);
+                  },
+                ),
+                  ListTile(
+                    title: Text('Show At Signs'),
+                    onTap: (){
+                      atProtocolService.getSigns();
+                    },
+                  ),],
+              ),
+            ),
             body: Builder(
               builder: (context) => CustomScrollView(
                 shrinkWrap: true,
@@ -28,6 +46,7 @@ class HomeView extends StatelessWidget {
                     shape: ContinuousRectangleBorder(
                         side:
                             BorderSide(width: 2, color: CupertinoColors.black)),
+                    title: Text(atProtocolService.atSign ?? '-'),
                     actions: [
                       IconButton(
                         icon: Icon(
@@ -61,11 +80,11 @@ class HomeView extends StatelessWidget {
                               onChanged: (bool value) {},
                               value: false,
                             ),
-                            title: Text('Hello'),
+                            title: Text('Task $index'),
                           ),
                         );
                       },
-                      childCount: 30,
+                      childCount: 4,
                     ),
                   ),
                 ],

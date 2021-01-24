@@ -22,20 +22,17 @@ dependencies:
   auto_route: ^0.6.9
   device_info: ^1.0.0
   device_preview: ^0.5.5
-  flip_card: ^0.4.4
   flutter_archive: ^1.0.3
   flutter_svg:
   fluttertoast: ^7.1.6
-  file_picker: ^2.0.13
   get_it: ^5.0.3
   google_fonts: ^1.1.1
   hive: ^1.4.4+1
   hive_flutter: ^0.3.1
   injectable: ^1.0.5
-  modal_progress_hud: any
+  observable_ish: ^2.1.5
   package_info: ^0.4.3+2
   path_provider: ^1.6.24
-  provider: ^4.3.2+3
   stacked: ^1.7.6
   stacked_themes: ^0.2.2+2
   url_launcher: ^5.7.10

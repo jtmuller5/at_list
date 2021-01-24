@@ -1,3 +1,4 @@
+import 'package:at_client_mobile/at_client_mobile.dart';
 import 'package:at_list/app/themes.dart';
 import 'package:at_list/services/getIt.dart';
 import 'package:at_list/services/services.dart';
@@ -8,7 +9,6 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:stacked_themes/stacked_themes.dart';
 
 import 'app/router.gr.dart';
-import 'ui/homeView/home_view.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -16,20 +16,38 @@ Future<void> main() async {
   await Hive.initFlutter();
   await initializeServices();
   await ThemeManager.initialise();
-  await atProtocolService.setupAtProtocol();
+  await atProtocolService.setup();
   runApp(Gateway());
 }
 
 /// Gateway into app. Will be used to route user to different screen based on
-/// authentication status
+/// the status of the current AtClient
 class Gateway extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return App();
+    return FutureBuilder<bool>(
+        future: atProtocolService.onboard(),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            if (snapshot.data) {
+              return App(
+                initialRoute: Routes.homeView,
+              );
+            } else {
+              return App(initialRoute: Routes.signInView);
+            }
+          } else {
+            return Center(child: CircularProgressIndicator());
+          }
+        });
   }
 }
 
 class App extends StatelessWidget {
+  final String initialRoute;
+
+  const App({Key key, @required this.initialRoute}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return ThemeBuilder(
@@ -38,12 +56,14 @@ class App extends StatelessWidget {
       defaultThemeMode: ThemeMode.light,
       builder: (context, regularTheme, darkTheme, themeMode) {
         return MaterialApp(
+          debugShowCheckedModeBanner: false,
           themeMode: themeMode,
           theme: regularTheme,
           darkTheme: darkTheme,
           builder: ExtendedNavigator.builder(
             router: AppRouter(),
-            initialRoute: Routes.homeView,
+            navigatorKey: atProtocolService.navKey,
+            initialRoute: initialRoute,
             builder: (context, child) {
               return child;
             },
